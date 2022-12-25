@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Vibeing</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="continue_txt">Continue</string>
+    <string name="joined_us_before">Joined us before ?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="full_name">Full Name</string>
+    <string name="d_o_b">D.O.B</string>
+    <string name="gender">Gender</string>
 </resources>
