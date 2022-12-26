@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Vibeing</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="continue_txt">Continue</string>
+    <string name="joined_us_before">Joined us before ?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="full_name">Full Name</string>
+    <string name="d_o_b">D.O.B</string>
+    <string name="gender">Gender</string>
+    <string name="new_to_vibeing">New to Vibeing ?</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
+    <string name="forgot_password_txt">Forgot Password ?</string>
+    <string name="submit">Submit</string>
+    <string name="a_password_reset_link_will_be_sent_to_your_registered_email_address">A password reset link will be sent to your registered email address.</string>
 </resources>
