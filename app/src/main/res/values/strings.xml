@@ -12,4 +12,18 @@
     <string name="full_name">Full Name</string>
     <string name="d_o_b">D.O.B</string>
     <string name="gender">Gender</string>
+    <string name="please_enter_email_address">Please enter the email address</string>
+    <string name="invalid_email_address">Invalid Email Address</string>
+    <string name="please_enter_password">Please enter the password</string>
+    <string name="password_must_be_atleast_six_chars">Password must be atleast 6 digits</string>
+    <string name="please_enter_name">Please enter your name</string>
+    <string name="name_must_be_atleast_two_chars">Name must be atleast 2 character</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="please_select_your_gender">Choose Gender</string>
+    <string name="incorrect_gender_type">Incorrect gender type</string>
+    <string name="details">Details</string>
+    <string name="register">Register</string>
+    <string name="please_select_dob">Please select D.O.B</string>
 </resources>
