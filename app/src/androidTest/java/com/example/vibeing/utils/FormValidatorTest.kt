@@ -102,20 +102,21 @@ internal class FormValidatorTest {
     @Test
     fun emptyGender_ReturnFalse() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val result = FormValidator.validateGender(context,"")
+        val result = FormValidator.validateGender(context, "")
         assertThat(result).isNotEmpty()
     }
+
     @Test
     fun wrongGender_ReturnFalse() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val result = FormValidator.validateGender(context,"prefer not to specify")
+        val result = FormValidator.validateGender(context, "prefer not to specify")
         assertThat(result).isNotEmpty()
     }
 
     @Test
     fun validGender_ReturnTrue() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val result = FormValidator.validateGender(context,"Male")
+        val result = FormValidator.validateGender(context, "Male")
         assertThat(result).isEmpty()
     }
 }

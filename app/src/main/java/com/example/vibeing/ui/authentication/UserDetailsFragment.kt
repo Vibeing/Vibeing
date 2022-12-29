@@ -24,6 +24,11 @@ class UserDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUserDetailsBinding.inflate(inflater)
         focusScreen()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpGenderDropDown()
         setUpClickListener()
         return binding.root
@@ -84,6 +89,7 @@ class UserDetailsFragment : Fragment() {
                 FunctionUtils.vibrateDevice(requireContext())
                 return
             }
+            //validate dob
             val dobVerificationResult = FormValidator.validateDateOfBirth(dateOfBirthTxt.text.toString())
             if (!dobVerificationResult) {
                 dateOfBirthContainer.isErrorEnabled = true
@@ -92,6 +98,7 @@ class UserDetailsFragment : Fragment() {
                 FunctionUtils.vibrateDevice(requireContext())
                 return
             }
+            //validate gender
             val genderVerificationResult = FormValidator.validateGender(requireContext(), genderTxt.text.toString())
             Log.e("abc", genderVerificationResult)
             if (genderVerificationResult.isNotBlank()) {
