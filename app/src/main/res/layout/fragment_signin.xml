@@ -115,6 +115,7 @@
                 app:boxStrokeWidth="1dp"
                 app:boxStrokeWidthFocused="1.5dp"
                 app:hintTextColor="@color/blue"
+                app:errorIconDrawable="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailContainer"
