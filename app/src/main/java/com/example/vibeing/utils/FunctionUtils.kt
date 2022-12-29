@@ -30,8 +30,7 @@ object FunctionUtils {
             monthList[monthNumber]
         else "error"
     }
-
-    fun navigate(view: View, id: Int) {
+    fun navigate(view: View,id:Int){
         Navigation.findNavController(view).navigate(id)
     }
 }

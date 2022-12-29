@@ -31,6 +31,7 @@ class UserDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpGenderDropDown()
         setUpClickListener()
+        return binding.root
     }
 
     private fun setUpClickListener() {
