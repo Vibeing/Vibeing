@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
+import androidx.navigation.Navigation
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 
@@ -28,5 +29,8 @@ object FunctionUtils {
         return if (monthNumber in 1..12)
             monthList[monthNumber]
         else "error"
+    }
+    fun navigate(view: View,id:Int){
+        Navigation.findNavController(view).navigate(id)
     }
 }
