@@ -48,14 +48,16 @@ class UserDetailsFragment : Fragment() {
         val month = calender.get(Calendar.MONTH)
         val day = calender.get(Calendar.DAY_OF_MONTH)
         if ((!::datePickerDialog.isInitialized)) {
-            datePickerDialog = DatePickerDialog(requireContext(), R.style.MyDatePickerStyle, { datePicker, year, monthOfYear, dayOfMonth ->
-                val date = "$dayOfMonth ${FunctionUtils.getMonthNameFromMonthNumber(monthOfYear)} $year"
-                datePicker.updateDate(year, month, dayOfMonth)
-                binding.dateOfBirthTxt.setText(date)
-            }, yrs, month, day)
+            datePickerDialog = DatePickerDialog(requireContext(), R.style.MyDatePickerStyle, datePickerResult, yrs, month, day)
             datePickerDialog.datePicker.maxDate = Date().time
         }
         datePickerDialog.show()
+    }
+
+    private val datePickerResult = DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
+        val date = "$dayOfMonth ${FunctionUtils.getMonthNameFromMonthNumber(monthOfYear)} $year"
+        datePicker.updateDate(year, monthOfYear, dayOfMonth)
+        binding.dateOfBirthTxt.setText(date)
     }
 
     private fun focusScreen() {
