@@ -43,7 +43,7 @@
                 android:layout_marginTop="32dp"
                 android:contentDescription="@string/sign_in"
                 android:scaleType="centerCrop"
-                android:src="@drawable/signin_img"
+                android:src="@drawable/signin_svg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintHeight_percent=".32"

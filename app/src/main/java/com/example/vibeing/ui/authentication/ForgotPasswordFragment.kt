@@ -7,13 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
-import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentForgotPasswordBinding
 
 
 class ForgotPasswordFragment : Fragment() {
  private lateinit var binding: FragmentForgotPasswordBinding
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding= FragmentForgotPasswordBinding.inflate(inflater)
         focusScreen()
         initAll()
