@@ -97,7 +97,7 @@
                 app:boxStrokeColor="@color/blue"
                 app:boxStrokeWidth="1dp"
                 app:boxStrokeWidthFocused="1.5dp"
-                app:endIconDrawable="@drawable/calendar_img"
+                app:endIconDrawable="@drawable/calender_svg"
                 app:endIconMode="custom"
                 app:hintTextColor="@color/blue"
                 app:layout_constraintEnd_toStartOf="@+id/genderContainer"

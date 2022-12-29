@@ -9,6 +9,8 @@ import android.view.WindowInsets
 import androidx.fragment.app.Fragment
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentSigninBinding
+import com.example.vibeing.utils.FormValidator
+import com.example.vibeing.utils.FunctionUtils
 import com.example.vibeing.utils.FunctionUtils.navigate
 
 class SigninFragment : Fragment() {
@@ -26,13 +28,14 @@ class SigninFragment : Fragment() {
     }
 
     private fun setUpClickListener() {
-        with(binding){
+        with(binding) {
             signupTxt.setOnClickListener {
-                navigate(requireView(),R.id.action_signinFragment_to_signupFragment)
+                navigate(requireView(), R.id.action_signinFragment_to_signupFragment)
             }
             forgotPasswordTxt.setOnClickListener {
-                navigate(requireView(),R.id.action_signinFragment_to_forgotPasswordFragment)
+                navigate(requireView(), R.id.action_signinFragment_to_forgotPasswordFragment)
             }
+            signinBtn.setOnClickListener { validateForm() }
         }
     }
 
@@ -50,4 +53,30 @@ class SigninFragment : Fragment() {
 
     }
 
+    private fun validateForm() {
+        with(binding) {
+            emailContainer.isErrorEnabled = false
+            passwordContainer.isErrorEnabled = false
+            //validate email
+            val emailVerificationResult =
+                FormValidator.validateEmail(requireContext(), emailEdit.text.toString())
+            if (emailVerificationResult.isNotBlank()) {
+                emailContainer.isErrorEnabled = true
+                emailContainer.error = emailVerificationResult
+                FunctionUtils.animateView(emailContainer)
+                FunctionUtils.vibrateDevice(requireContext())
+                return
+            }
+            //validate password
+            val passwordValidationResult =
+                FormValidator.validatePassword(requireContext(), passwordEdit.text.toString())
+            if (passwordValidationResult.isNotBlank()) {
+                passwordContainer.isErrorEnabled = true
+                passwordContainer.error = passwordValidationResult
+                FunctionUtils.animateView(passwordContainer)
+                FunctionUtils.vibrateDevice(requireContext())
+                return
+            }
+        }
+    }
 }
