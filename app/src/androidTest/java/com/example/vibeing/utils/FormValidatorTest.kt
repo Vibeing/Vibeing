@@ -98,7 +98,6 @@ internal class FormValidatorTest {
         val result = FormValidator.validateDateOfBirth("16 Dec 2022")
         assertThat(result).isTrue()
     }
-
     //testing gender
     @Test
     fun emptyGender_ReturnFalse() {
