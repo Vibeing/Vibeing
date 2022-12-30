@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "4135319914",
+    "project_id": "vibeing-ca66b",
+    "storage_bucket": "vibeing-ca66b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4135319914:android:31934b0b90e3209082cd13",
+        "android_client_info": {
+          "package_name": "com.example.vibeing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4135319914-taf2q10593vl6geijpascmmo9h9duvsa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vibeing",
+            "certificate_hash": "c02a467d3efa8bd9841b89d61269c314a7b1ab5c"
+          }
+        },
+        {
+          "client_id": "4135319914-b03nilu09pj2q7io16u0a2kloerkbbc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN0j36BOgAfl31X_HGqujOxITuOeuCvu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4135319914-b03nilu09pj2q7io16u0a2kloerkbbc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

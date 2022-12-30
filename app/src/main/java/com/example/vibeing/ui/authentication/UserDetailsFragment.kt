@@ -1,26 +1,35 @@
 package com.example.vibeing.ui.authentication
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentUserDetailsBinding
+import com.example.vibeing.models.User
+import com.example.vibeing.ui.home.HomeActivity
 import com.example.vibeing.utils.FormValidator
 import com.example.vibeing.utils.FunctionUtils
+import com.example.vibeing.utils.FunctionUtils.snackbar
+import com.example.vibeing.utils.FunctionUtils.toast
+import com.example.vibeing.utils.RequestStatus
+import com.example.vibeing.viewModel.authentication.UserDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-
+@AndroidEntryPoint
 class UserDetailsFragment : Fragment() {
     private var _binding: FragmentUserDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var datePickerDialog: DatePickerDialog
+    private val viewModel by viewModels<UserDetailViewModel>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUserDetailsBinding.inflate(inflater)
         focusScreen()
@@ -31,13 +40,53 @@ class UserDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpGenderDropDown()
         setUpClickListener()
+        handleLiveDataStatusChange()
     }
 
     private fun setUpClickListener() {
         with(binding) {
             dateOfBirthTxt.setOnClickListener { setUpDobCalender() }
-            registerBtn.setOnClickListener { validateForm() }
+            registerBtn.setOnClickListener { createUserProfile() }
         }
+    }
+
+    private fun handleLiveDataStatusChange() {
+        viewModel.createUserLiveData.observe(viewLifecycleOwner) {
+            with(binding) {
+                when (it.status) {
+                    RequestStatus.LOADING -> {
+                        registerBtn.isClickable = false
+                        registerBtnProgressBar.visibility = View.VISIBLE
+                        registerBtnTxt.text = getString(R.string.verifying)
+                    }
+                    RequestStatus.SUCCESS -> {
+                        registerBtn.isClickable = true
+                        toast(requireContext(), getString(R.string.account_created_successfully))
+                        startActivity(Intent(requireContext(), HomeActivity::class.java))
+                        requireActivity().finish()
+                    }
+                    RequestStatus.EXCEPTION -> {
+                        registerBtn.isClickable = true
+                        registerBtnProgressBar.visibility = View.INVISIBLE
+                        registerBtnTxt.text = getString(R.string.continue_txt)
+                        snackbar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun createUserProfile() {
+        with(binding) {
+            val fullName = fullNameEdit.text.toString().trim()
+            val dob = dateOfBirthTxt.text.toString()
+            val gender = genderTxt.text.toString()
+            val user = User(fullName, gender, dob)
+            if (!validateForm(user))
+                return
+            viewModel.createUserProfile(user)
+        }
+
     }
 
     private fun setUpGenderDropDown() {
@@ -74,40 +123,40 @@ class UserDetailsFragment : Fragment() {
         }
     }
 
-    private fun validateForm() {
+    private fun validateForm(user: User): Boolean {
         with(binding) {
             fullNameContainer.isErrorEnabled = false
             dateOfBirthContainer.isErrorEnabled = false
             genderContainer.isErrorEnabled = false
             //validate full name
-            val nameVerificationResult = FormValidator.validateName(requireContext(), fullNameEdit.text.toString())
+            val nameVerificationResult = FormValidator.validateName(requireContext(), user.fullName)
             if (nameVerificationResult.isNotBlank()) {
                 fullNameContainer.isErrorEnabled = true
                 fullNameContainer.error = nameVerificationResult
                 FunctionUtils.animateView(fullNameContainer)
                 FunctionUtils.vibrateDevice(requireContext())
-                return
+                return false
             }
             //validate dob
-            val dobVerificationResult = FormValidator.validateDateOfBirth(dateOfBirthTxt.text.toString())
+            val dobVerificationResult = FormValidator.validateDateOfBirth(user.dob)
             if (!dobVerificationResult) {
                 dateOfBirthContainer.isErrorEnabled = true
                 dateOfBirthContainer.error = getString(R.string.please_select_dob)
                 FunctionUtils.animateView(dateOfBirthContainer)
                 FunctionUtils.vibrateDevice(requireContext())
-                return
+                return false
             }
             //validate gender
-            val genderVerificationResult = FormValidator.validateGender(requireContext(), genderTxt.text.toString())
-            Log.e("abc", genderVerificationResult)
+            val genderVerificationResult = FormValidator.validateGender(requireContext(), user.gender)
             if (genderVerificationResult.isNotBlank()) {
                 genderContainer.isErrorEnabled = true
                 genderContainer.error = genderVerificationResult
                 FunctionUtils.animateView(genderContainer)
                 FunctionUtils.vibrateDevice(requireContext())
-                return
+                return false
             }
         }
+        return true
     }
 
     override fun onDestroyView() {

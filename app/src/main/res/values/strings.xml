@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Vibeing</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -31,4 +31,8 @@
     <string name="forgot_password_txt">Forgot Password ?</string>
     <string name="submit">Submit</string>
     <string name="a_password_reset_link_will_be_sent_to_your_registered_email_address">A password reset link will be sent to your registered email address.</string>
+    <string name="password_not_match">Password didn\'t match</string>
+    <string name="verifying" tools:ignore="TypographyEllipsis">Verifying...</string>
+    <string name="some_error_occurred">Some error occurred</string>
+    <string name="account_created_successfully">Account Created Successfully</string>
 </resources>

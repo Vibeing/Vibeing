@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import android.view.WindowInsets
 import androidx.fragment.app.Fragment
 import com.example.vibeing.databinding.FragmentForgotPasswordBinding
-
+import com.example.vibeing.utils.FormValidator
+import com.example.vibeing.utils.FunctionUtils
 
 class ForgotPasswordFragment : Fragment() {
     private var _binding: FragmentForgotPasswordBinding? = null
@@ -22,6 +23,13 @@ class ForgotPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAll()
+        setUpClickListener()
+    }
+
+    private fun setUpClickListener() {
+        with(binding) {
+            submitBtn.setOnClickListener { validateForm() }
+        }
     }
 
     private fun focusScreen() {
@@ -36,6 +44,22 @@ class ForgotPasswordFragment : Fragment() {
 
     private fun initAll() {
 
+    }
+
+    private fun validateForm() {
+        with(binding) {
+            emailContainer.isErrorEnabled = false
+            //validate email
+            val emailVerificationResult =
+                FormValidator.validateEmail(requireContext(), emailEdit.text.toString())
+            if (emailVerificationResult.isNotBlank()) {
+                emailContainer.isErrorEnabled = true
+                emailContainer.error = emailVerificationResult
+                FunctionUtils.animateView(emailContainer)
+                FunctionUtils.vibrateDevice(requireContext())
+                return
+            }
+        }
     }
 
     override fun onDestroyView() {
