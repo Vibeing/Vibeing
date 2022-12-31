@@ -31,7 +31,7 @@
                 android:text="@string/forgot_password"
                 android:textColor="@color/blue"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/signinBtn"
+                app:layout_constraintBottom_toTopOf="@+id/signinButtonContainer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/passwordContainer" />
 
@@ -115,6 +115,7 @@
                 app:boxStrokeWidth="1dp"
                 app:boxStrokeWidthFocused="1.5dp"
                 app:hintTextColor="@color/blue"
+                app:errorIconDrawable="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailContainer"
@@ -129,26 +130,55 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/signinBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/signinButtonContainer"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/background_white_12"
-                android:backgroundTint="@color/blue"
-                android:includeFontPadding="false"
-                android:text="@string/sign_in"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTxt" />
+                app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTxt">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/signinBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/blue">
+
+                    <TextView
+                        android:id="@+id/signinBtnTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="@string/sign_in"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/progressBar"
+                        app:layout_constraintTop_toTopOf="@+id/progressBar" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:layout_marginHorizontal="6dp"
+                        android:indeterminateTint="@color/white"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/signinBtnTxt"
+                        app:layout_constraintHorizontal_bias="0.38"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/newAccountTxt"
@@ -159,7 +189,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.41"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signinBtn"
+                app:layout_constraintTop_toBottomOf="@+id/signinButtonContainer"
                 app:layout_constraintVertical_bias="0.78" />
 
             <TextView
@@ -177,5 +207,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

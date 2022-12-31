@@ -5,9 +5,11 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.snackbar.Snackbar
 
 object FunctionUtils {
     fun animateView(view: View, duration: Long = 500, repeat: Int = 0, techniques: Techniques = Techniques.Shake) {
@@ -30,7 +32,16 @@ object FunctionUtils {
             monthList[monthNumber]
         else "error"
     }
-    fun navigate(view: View,id:Int){
+
+    fun navigate(view: View, id: Int) {
         Navigation.findNavController(view).navigate(id)
+    }
+
+    fun toast(context: Context, msg: String, time: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(context, msg, time).show()
+    }
+
+    fun snackbar(view: View, msg: String, time: Int = Snackbar.LENGTH_SHORT): Snackbar {
+        return Snackbar.make(view, msg, time)
     }
 }
