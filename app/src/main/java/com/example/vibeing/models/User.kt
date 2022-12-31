@@ -1,4 +1,5 @@
 package com.example.vibeing.models
 
-class User(val fullName: String, val gender: String, val dob: String) {
+<<<<<<< HEAD
+class User(val fullName: String, val email: String, val gender: String, val dob: String) {
 }

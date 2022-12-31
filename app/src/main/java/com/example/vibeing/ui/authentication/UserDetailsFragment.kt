@@ -81,7 +81,8 @@ class UserDetailsFragment : Fragment() {
             val fullName = fullNameEdit.text.toString().trim()
             val dob = dateOfBirthTxt.text.toString()
             val gender = genderTxt.text.toString()
-            val user = User(fullName, gender, dob)
+            val email = UserDetailsFragmentArgs.fromBundle(requireArguments()).email
+            val user = User(fullName, email, gender, dob)
             if (!validateForm(user))
                 return
             viewModel.createUserProfile(user)
