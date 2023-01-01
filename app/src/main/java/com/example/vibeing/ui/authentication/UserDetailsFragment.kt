@@ -1,6 +1,7 @@
 package com.example.vibeing.ui.authentication
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,6 +23,8 @@ import com.example.vibeing.utils.FunctionUtils.snackbar
 import com.example.vibeing.utils.FunctionUtils.toast
 import com.example.vibeing.utils.RequestStatus
 import com.example.vibeing.viewModel.authentication.UserDetailViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -46,7 +50,10 @@ class UserDetailsFragment : Fragment() {
     private fun setUpClickListener() {
         with(binding) {
             dateOfBirthTxt.setOnClickListener { setUpDobCalender() }
-            registerBtn.setOnClickListener { createUserProfile() }
+            registerBtn.setOnClickListener {
+                it.hideKeyboard()
+                createUserProfile()
+            }
         }
     }
 
@@ -67,6 +74,7 @@ class UserDetailsFragment : Fragment() {
                     }
                     RequestStatus.EXCEPTION -> {
                         registerBtn.isClickable = true
+                        Firebase.auth.signOut()
                         registerBtnProgressBar.visibility = View.INVISIBLE
                         registerBtnTxt.text = getString(R.string.continue_txt)
                         snackbar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
@@ -81,7 +89,8 @@ class UserDetailsFragment : Fragment() {
             val fullName = fullNameEdit.text.toString().trim()
             val dob = dateOfBirthTxt.text.toString()
             val gender = genderTxt.text.toString()
-            val user = User(fullName, gender, dob)
+            val email = UserDetailsFragmentArgs.fromBundle(requireArguments()).email
+            val user = User(fullName, email, gender, dob)
             if (!validateForm(user))
                 return
             viewModel.createUserProfile(user)
@@ -162,5 +171,10 @@ class UserDetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }

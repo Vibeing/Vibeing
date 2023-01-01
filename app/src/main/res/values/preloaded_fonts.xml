@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/damion</item>
+        <item>@font/great_vibes</item>
+        <item>@font/noto_serif_italic</item>
+        <item>@font/oleo_script_swash_caps</item>
         <item>@font/poppins</item>
         <item>@font/poppins_bold</item>
         <item>@font/poppins_semibold</item>

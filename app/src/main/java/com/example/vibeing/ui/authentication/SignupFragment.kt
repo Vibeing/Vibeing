@@ -1,14 +1,17 @@
 package com.example.vibeing.ui.authentication
 
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentSignupBinding
 import com.example.vibeing.utils.FormValidator.validateConfirmPassword
@@ -50,7 +53,8 @@ class SignupFragment : Fragment() {
                     }
                     RequestStatus.SUCCESS -> {
                         continueBtn.isClickable = true
-                        navigate(requireView(), R.id.action_signupFragment_to_userDetailsFragment)
+                        val action = SignupFragmentDirections.actionSignupFragmentToUserDetailsFragment(binding.emailEdit.text.toString())
+                        Navigation.findNavController(requireView()).navigate(action)
                     }
                     RequestStatus.EXCEPTION -> {
                         continueBtn.isClickable = true
@@ -65,7 +69,10 @@ class SignupFragment : Fragment() {
 
     private fun setUpClickListener() {
         with(binding) {
-            continueBtn.setOnClickListener { signupUser() }
+            continueBtn.setOnClickListener {
+                it.hideKeyboard()
+                signupUser()
+            }
             signinTxt.setOnClickListener { navigate(requireView(), R.id.action_signupFragment_to_signinFragment) }
         }
     }
@@ -130,5 +137,10 @@ class SignupFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }

@@ -29,11 +29,17 @@
     </style>
 
     <style name="MyDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorAccent">@color/blue_black</item>
         <!--selected Item color-->
         <item name="colorControlActivated">@color/blue</item>
+        <item name="android:windowBackground">@color/white_black</item>
         <item name="android:textColorPrimary">@android:color/darker_gray</item>
         <!-- Ok Cancel Color-->
-        <item name="colorOnPrimary">@color/blue</item>
+        <item name="colorOnPrimary">@color/blue_white</item>
+    </style>
+
+    <style name="MyCustomFontTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/noto_serif_italic</item>
+        <!--        <item name="android:fontFamily">@font/iransans</item>-->
     </style>
 </resources>
