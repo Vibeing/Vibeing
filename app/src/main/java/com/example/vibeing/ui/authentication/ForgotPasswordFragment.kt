@@ -1,11 +1,13 @@
 package com.example.vibeing.ui.authentication
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.vibeing.R
@@ -37,7 +39,10 @@ class ForgotPasswordFragment : Fragment() {
 
     private fun setUpClickListener() {
         with(binding) {
-            submitBtn.setOnClickListener { sendResetPasswordLink() }
+            submitBtn.setOnClickListener {
+                it.hideKeyboard()
+                sendResetPasswordLink()
+            }
         }
     }
 
@@ -105,5 +110,10 @@ class ForgotPasswordFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }

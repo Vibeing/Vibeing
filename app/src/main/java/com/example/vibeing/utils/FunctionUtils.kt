@@ -44,4 +44,6 @@ object FunctionUtils {
     fun snackbar(view: View, msg: String, time: Int = Snackbar.LENGTH_SHORT): Snackbar {
         return Snackbar.make(view, msg, time)
     }
+
+
 }

@@ -9,10 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#0165ff</color>
     <color name="red">#C10909</color>
-    <color name="black_white">@color/black</color>
-    <color name="gray">#737373</color>
-    <color name="gray_white">@color/gray</color>
-    <color name="white_black">@color/white</color>
-    <color name="blue_black">@color/blue</color>
-    <color name="blue_white">@color/blue</color>
+    <color name="black_white">@color/white</color>
+    <color name="gray_white">#80FFFFFF</color>
+    <color name="white_black">@color/black</color>
+    <color name="blue_black">@color/black</color>
+    <color name="blue_white">@color/white</color>
 </resources>

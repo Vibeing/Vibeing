@@ -1,5 +1,6 @@
 package com.example.vibeing.ui.authentication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -7,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentSigninBinding
@@ -17,7 +20,9 @@ import com.example.vibeing.utils.FormValidator
 import com.example.vibeing.utils.FunctionUtils
 import com.example.vibeing.utils.FunctionUtils.navigate
 import com.example.vibeing.utils.RequestStatus
+import com.example.vibeing.utils.Resource
 import com.example.vibeing.viewModel.authentication.SigninViewModel
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +53,10 @@ class SigninFragment : Fragment() {
             forgotPasswordTxt.setOnClickListener {
                 navigate(requireView(), R.id.action_signinFragment_to_forgotPasswordFragment)
             }
-            signinBtn.setOnClickListener { signinUser() }
+            signinBtn.setOnClickListener {
+                it.hideKeyboard()
+                signinUser()
+            }
         }
     }
 
@@ -87,6 +95,7 @@ class SigninFragment : Fragment() {
                     }
                     RequestStatus.SUCCESS -> {
                         signinBtn.isClickable = true
+                        signinBtnTxt.text = getText(R.string.continue_txt)
                         if (it.data == true) {
                             startActivity(Intent(requireContext(), HomeActivity::class.java))
                             requireActivity().finish()
@@ -97,6 +106,7 @@ class SigninFragment : Fragment() {
                     }
                     RequestStatus.EXCEPTION -> {
                         signinBtn.isClickable = true
+                        Firebase.auth.signOut()
                         progressBar.visibility = View.INVISIBLE
                         signinBtnTxt.text = getString(R.string.continue_txt)
                         FunctionUtils.snackbar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
@@ -157,5 +167,16 @@ class SigninFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun View.hideKeyboard() {
+        val inputManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.signinUserLiveData = MutableLiveData<Resource<FirebaseUser>>()
+        viewModel.checkUserLiveData = MutableLiveData<Resource<Boolean>>()
     }
 }
