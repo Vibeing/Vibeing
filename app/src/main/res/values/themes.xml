@@ -42,4 +42,9 @@
         <item name="fontFamily">@font/noto_serif_italic</item>
         <!--        <item name="android:fontFamily">@font/iransans</item>-->
     </style>
+
+    <style name="MyCustomFontTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/noto_serif_italic</item>
+        <!--        <item name="android:fontFamily">@font/iransans</item>-->
+    </style>
 </resources>
