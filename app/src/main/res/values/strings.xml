@@ -37,4 +37,9 @@
     <string name="account_created_successfully">Account Created Successfully</string>
     <string name="a_reset_password_link_has_been_sent_to_the_registered_email_address">A reset password link has been sent to the registered email address</string>
     <string name="please_click_back_to_exit_app">Please click BACK again to exit</string>
+    <string name="home">Home</string>
+    <string name="notifications">Notifications</string>
+    <string name="post">Post</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
 </resources>

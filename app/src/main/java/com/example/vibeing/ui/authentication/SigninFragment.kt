@@ -48,10 +48,10 @@ class SigninFragment : Fragment() {
     private fun setUpClickListener() {
         with(binding) {
             signupTxt.setOnClickListener {
-                navigate(requireView(), R.id.action_signinFragment_to_signupFragment)
+                navigate(requireView(), id = R.id.action_signinFragment_to_signupFragment)
             }
             forgotPasswordTxt.setOnClickListener {
-                navigate(requireView(), R.id.action_signinFragment_to_forgotPasswordFragment)
+                navigate(requireView(), id = R.id.action_signinFragment_to_forgotPasswordFragment)
             }
             signinBtn.setOnClickListener {
                 it.hideKeyboard()

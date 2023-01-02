@@ -67,7 +67,7 @@ class ForgotPasswordFragment : Fragment() {
                     RequestStatus.SUCCESS -> {
                         submitBtn.isClickable = true
                         snackbar(requireView(), getString(R.string.a_reset_password_link_has_been_sent_to_the_registered_email_address)).show()
-                        navigate(requireView(), R.id.action_forgotPasswordFragment_to_signinFragment)
+                        navigate(requireView(), id = R.id.action_forgotPasswordFragment_to_signinFragment)
                     }
                     RequestStatus.EXCEPTION -> {
                         submitBtn.isClickable = true
