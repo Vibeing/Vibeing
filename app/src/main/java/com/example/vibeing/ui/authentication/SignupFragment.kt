@@ -11,7 +11,6 @@ import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentSignupBinding
 import com.example.vibeing.utils.FormValidator.validateConfirmPassword
@@ -54,7 +53,7 @@ class SignupFragment : Fragment() {
                     RequestStatus.SUCCESS -> {
                         continueBtn.isClickable = true
                         val action = SignupFragmentDirections.actionSignupFragmentToUserDetailsFragment(binding.emailEdit.text.toString())
-                        Navigation.findNavController(requireView()).navigate(action)
+                        navigate(requireView(), action)
                     }
                     RequestStatus.EXCEPTION -> {
                         continueBtn.isClickable = true
@@ -73,7 +72,7 @@ class SignupFragment : Fragment() {
                 it.hideKeyboard()
                 signupUser()
             }
-            signinTxt.setOnClickListener { navigate(requireView(), R.id.action_signupFragment_to_signinFragment) }
+            signinTxt.setOnClickListener { navigate(requireView(), id = R.id.action_signupFragment_to_signinFragment) }
         }
     }
 

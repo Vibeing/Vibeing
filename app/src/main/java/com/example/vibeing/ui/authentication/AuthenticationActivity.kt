@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.vibeing.R
 import com.example.vibeing.databinding.ActivityAuthenticationBinding
+import com.example.vibeing.utils.Constants.BACK_BTN_TIME_OUT
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -36,7 +37,7 @@ class AuthenticationActivity : AppCompatActivity() {
         } else if (!doubleBackToExitPressedOnce) {
             doubleBackToExitPressedOnce = true
             Toast.makeText(this, getString(R.string.please_click_back_to_exit_app), Toast.LENGTH_SHORT).show()
-            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, BACK_BTN_TIME_OUT)
         } else {
             super.onBackPressed()
             return

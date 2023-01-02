@@ -6,6 +6,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -33,8 +34,11 @@ object FunctionUtils {
         else "error"
     }
 
-    fun navigate(view: View, id: Int) {
-        Navigation.findNavController(view).navigate(id)
+    fun navigate(view: View, action: NavDirections? = null, id: Int? = null) {
+        if (action == null && id != null)
+            Navigation.findNavController(view).navigate(id)
+        else if (id == null && action != null)
+            Navigation.findNavController(view).navigate(action)
     }
 
     fun toast(context: Context, msg: String, time: Int = Toast.LENGTH_SHORT) {
@@ -44,6 +48,5 @@ object FunctionUtils {
     fun snackbar(view: View, msg: String, time: Int = Snackbar.LENGTH_SHORT): Snackbar {
         return Snackbar.make(view, msg, time)
     }
-
 
 }
