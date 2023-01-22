@@ -10,7 +10,7 @@
         android:id="@+id/homeBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemIconSize="26sp"
+        app:itemIconSize="@dimen/_20sdp"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

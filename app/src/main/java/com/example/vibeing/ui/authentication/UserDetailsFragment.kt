@@ -1,15 +1,11 @@
 package com.example.vibeing.ui.authentication
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,10 +13,16 @@ import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentUserDetailsBinding
 import com.example.vibeing.models.User
 import com.example.vibeing.ui.home.HomeActivity
-import com.example.vibeing.utils.FormValidator
-import com.example.vibeing.utils.FunctionUtils
-import com.example.vibeing.utils.FunctionUtils.snackbar
+import com.example.vibeing.utils.FormValidator.validateDateOfBirth
+import com.example.vibeing.utils.FormValidator.validateGender
+import com.example.vibeing.utils.FormValidator.validateName
+import com.example.vibeing.utils.FunctionUtils.animateView
+import com.example.vibeing.utils.FunctionUtils.focusScreen
+import com.example.vibeing.utils.FunctionUtils.getMonthNameFromMonthNumber
+import com.example.vibeing.utils.FunctionUtils.hideKeyboard
+import com.example.vibeing.utils.FunctionUtils.snackBar
 import com.example.vibeing.utils.FunctionUtils.toast
+import com.example.vibeing.utils.FunctionUtils.vibrateDevice
 import com.example.vibeing.utils.RequestStatus
 import com.example.vibeing.viewModel.authentication.UserDetailViewModel
 import com.google.firebase.auth.ktx.auth
@@ -36,7 +38,7 @@ class UserDetailsFragment : Fragment() {
     private val viewModel by viewModels<UserDetailViewModel>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUserDetailsBinding.inflate(inflater)
-        focusScreen()
+        focusScreen(binding.root)
         return binding.root
     }
 
@@ -51,7 +53,6 @@ class UserDetailsFragment : Fragment() {
         with(binding) {
             dateOfBirthTxt.setOnClickListener { setUpDobCalender() }
             registerBtn.setOnClickListener {
-                it.hideKeyboard()
                 createUserProfile()
             }
         }
@@ -77,7 +78,7 @@ class UserDetailsFragment : Fragment() {
                         Firebase.auth.signOut()
                         registerBtnProgressBar.visibility = View.INVISIBLE
                         registerBtnTxt.text = getString(R.string.continue_txt)
-                        snackbar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
+                        snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
                     }
                 }
             }
@@ -93,9 +94,9 @@ class UserDetailsFragment : Fragment() {
             val user = User(fullName, email, gender, dob)
             if (!validateForm(user))
                 return
+            hideKeyboard(requireContext(), requireView())
             viewModel.createUserProfile(user)
         }
-
     }
 
     private fun setUpGenderDropDown() {
@@ -117,19 +118,9 @@ class UserDetailsFragment : Fragment() {
     }
 
     private val datePickerResult = DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
-        val date = "$dayOfMonth ${FunctionUtils.getMonthNameFromMonthNumber(monthOfYear)} $year"
+        val date = "$dayOfMonth ${getMonthNameFromMonthNumber(monthOfYear)} $year"
         datePicker.updateDate(year, monthOfYear, dayOfMonth)
         binding.dateOfBirthTxt.setText(date)
-    }
-
-    private fun focusScreen() {
-        binding.root.setOnApplyWindowInsetsListener { _, windowInsets ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val imeHeight = windowInsets.getInsets(WindowInsets.Type.ime()).bottom
-                binding.root.setPadding(0, 0, 0, imeHeight)
-            }
-            windowInsets
-        }
     }
 
     private fun validateForm(user: User): Boolean {
@@ -138,30 +129,30 @@ class UserDetailsFragment : Fragment() {
             dateOfBirthContainer.isErrorEnabled = false
             genderContainer.isErrorEnabled = false
             //validate full name
-            val nameVerificationResult = FormValidator.validateName(requireContext(), user.fullName)
+            val nameVerificationResult = validateName(requireContext(), user.fullName)
             if (nameVerificationResult.isNotBlank()) {
                 fullNameContainer.isErrorEnabled = true
                 fullNameContainer.error = nameVerificationResult
-                FunctionUtils.animateView(fullNameContainer)
-                FunctionUtils.vibrateDevice(requireContext())
+                animateView(fullNameContainer)
+                vibrateDevice(requireContext())
                 return false
             }
             //validate dob
-            val dobVerificationResult = FormValidator.validateDateOfBirth(user.dob)
+            val dobVerificationResult = validateDateOfBirth(user.dob)
             if (!dobVerificationResult) {
                 dateOfBirthContainer.isErrorEnabled = true
                 dateOfBirthContainer.error = getString(R.string.please_select_dob)
-                FunctionUtils.animateView(dateOfBirthContainer)
-                FunctionUtils.vibrateDevice(requireContext())
+                animateView(dateOfBirthContainer)
+                vibrateDevice(requireContext())
                 return false
             }
             //validate gender
-            val genderVerificationResult = FormValidator.validateGender(requireContext(), user.gender)
+            val genderVerificationResult = validateGender(requireContext(), user.gender)
             if (genderVerificationResult.isNotBlank()) {
                 genderContainer.isErrorEnabled = true
                 genderContainer.error = genderVerificationResult
-                FunctionUtils.animateView(genderContainer)
-                FunctionUtils.vibrateDevice(requireContext())
+                animateView(genderContainer)
+                vibrateDevice(requireContext())
                 return false
             }
         }
@@ -171,10 +162,5 @@ class UserDetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun View.hideKeyboard() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }

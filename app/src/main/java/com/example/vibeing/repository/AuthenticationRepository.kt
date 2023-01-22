@@ -1,8 +1,8 @@
 package com.example.vibeing.repository
 
-import android.util.Log
 import com.example.vibeing.models.User
-import com.example.vibeing.utils.Constants.USER_KEY
+import com.example.vibeing.utils.Constants.KEY_USER
+import com.example.vibeing.utils.FunctionUtils.getException
 import com.example.vibeing.utils.Resource
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -17,25 +17,17 @@ class AuthenticationRepository @Inject constructor() {
             val result = Firebase.auth.createUserWithEmailAndPassword(email, password).await()
             Resource.success(result.user!!)
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            var message = exception.localizedMessage
-            if (message?.contains(":") == true)
-                message = message.substringAfter(":")
-            Resource.error(null, message ?: "Some error occurred")
+            getException(exception, null)
         }
     }
 
     suspend fun createUserProfile(user: User): Resource<Boolean> {
         return if (Firebase.auth.uid != null) {
             try {
-                Firebase.firestore.collection(USER_KEY).document(Firebase.auth.uid!!).set(user).await()
+                Firebase.firestore.collection(KEY_USER).document(Firebase.auth.uid!!).set(user).await()
                 Resource.success(true)
             } catch (exception: Exception) {
-                exception.printStackTrace()
-                var message = exception.localizedMessage
-                if (message?.contains(":") == true)
-                    message = message.substringAfter(":")
-                Resource.error(false, message ?: "Some error occurred")
+                getException(exception, false)
             }
         } else {
             Resource.error(false, "Some error occurred")
@@ -47,11 +39,7 @@ class AuthenticationRepository @Inject constructor() {
             val result = Firebase.auth.signInWithEmailAndPassword(email, password).await()
             Resource.success(result.user)
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            var message = exception.localizedMessage
-            if (message?.contains(":") == true)
-                message = message.substringAfter(":")
-            Resource.error(null, message ?: "Some error occurred")
+            getException(exception, null)
         }
     }
 
@@ -60,27 +48,18 @@ class AuthenticationRepository @Inject constructor() {
             Firebase.auth.sendPasswordResetEmail(email).await()
             Resource.success(true)
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            var message = exception.localizedMessage
-            if (message?.contains(":") == true)
-                message = message.substringAfter(":")
-            Resource.error(false, message ?: "Some error occurred")
+            getException(exception, false)
         }
     }
 
     suspend fun getCurrentUser(uid: String): Resource<Boolean> {
         return try {
-            val result = Firebase.firestore.collection(USER_KEY).document(uid).get().await()
-            Log.e("abc", result.toString())
+            val result = Firebase.firestore.collection(KEY_USER).document(uid).get().await()
             if (!result.exists()) {
                 return Resource.success(false)
             } else Resource.success(true)
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            var message = exception.localizedMessage
-            if (message?.contains(":") == true)
-                message = message.substringAfter(":")
-            Resource.error(false, message ?: "Some error occurred")
+            getException(exception, false)
         }
     }
 }

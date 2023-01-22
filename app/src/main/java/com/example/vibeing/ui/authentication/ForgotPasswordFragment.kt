@@ -1,21 +1,20 @@
 package com.example.vibeing.ui.authentication
 
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentForgotPasswordBinding
-import com.example.vibeing.utils.FormValidator
-import com.example.vibeing.utils.FunctionUtils
+import com.example.vibeing.utils.FormValidator.validateEmail
+import com.example.vibeing.utils.FunctionUtils.animateView
+import com.example.vibeing.utils.FunctionUtils.focusScreen
+import com.example.vibeing.utils.FunctionUtils.hideKeyboard
 import com.example.vibeing.utils.FunctionUtils.navigate
-import com.example.vibeing.utils.FunctionUtils.snackbar
+import com.example.vibeing.utils.FunctionUtils.snackBar
+import com.example.vibeing.utils.FunctionUtils.vibrateDevice
 import com.example.vibeing.utils.RequestStatus
 import com.example.vibeing.viewModel.authentication.ForgotPasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +26,7 @@ class ForgotPasswordFragment : Fragment() {
     private val viewModel by viewModels<ForgotPasswordViewModel>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentForgotPasswordBinding.inflate(inflater)
-        focusScreen()
+        focusScreen(binding.root)
         return binding.root
     }
 
@@ -40,7 +39,6 @@ class ForgotPasswordFragment : Fragment() {
     private fun setUpClickListener() {
         with(binding) {
             submitBtn.setOnClickListener {
-                it.hideKeyboard()
                 sendResetPasswordLink()
             }
         }
@@ -51,6 +49,7 @@ class ForgotPasswordFragment : Fragment() {
             val email = emailEdit.text.toString().trim()
             if (!validateForm(email))
                 return
+            hideKeyboard(requireContext(), requireView())
             viewModel.sendResetPasswordLink(email)
         }
     }
@@ -66,27 +65,17 @@ class ForgotPasswordFragment : Fragment() {
                     }
                     RequestStatus.SUCCESS -> {
                         submitBtn.isClickable = true
-                        snackbar(requireView(), getString(R.string.a_reset_password_link_has_been_sent_to_the_registered_email_address)).show()
+                        snackBar(requireView(), getString(R.string.a_reset_password_link_has_been_sent_to_the_registered_email_address)).show()
                         navigate(requireView(), id = R.id.action_forgotPasswordFragment_to_signinFragment)
                     }
                     RequestStatus.EXCEPTION -> {
                         submitBtn.isClickable = true
                         progressBar.visibility = View.INVISIBLE
                         forgotPasswordBtnTxt.text = getString(R.string.continue_txt)
-                        snackbar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
+                        snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
                     }
                 }
             }
-        }
-    }
-
-    private fun focusScreen() {
-        binding.root.setOnApplyWindowInsetsListener { _, windowInsets ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val imeHeight = windowInsets.getInsets(WindowInsets.Type.ime()).bottom
-                binding.root.setPadding(0, 0, 0, imeHeight)
-            }
-            windowInsets
         }
     }
 
@@ -95,12 +84,12 @@ class ForgotPasswordFragment : Fragment() {
             emailContainer.isErrorEnabled = false
             //validate email
             val emailVerificationResult =
-                FormValidator.validateEmail(requireContext(), email)
+                validateEmail(requireContext(), email)
             if (emailVerificationResult.isNotBlank()) {
                 emailContainer.isErrorEnabled = true
                 emailContainer.error = emailVerificationResult
-                FunctionUtils.animateView(emailContainer)
-                FunctionUtils.vibrateDevice(requireContext())
+                animateView(emailContainer)
+                vibrateDevice(requireContext())
                 return false
             }
         }
@@ -110,10 +99,5 @@ class ForgotPasswordFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun View.hideKeyboard() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }
