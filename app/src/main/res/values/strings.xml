@@ -42,4 +42,20 @@
     <string name="post">Post</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="create_post">Create Post</string>
+    <string name="what_s_on_your_mind">What\'s on your mind ?</string>
+    <string name="everyone">Everyone</string>
+    <string name="friends">Friends</string>
+    <string name="uploading_your_post" tools:ignore="TypographyEllipsis">Uploading your post...</string>
+    <string name="post_uploaded_successfully">Post uploaded successfully</string>
+    <string name="userprofile">userProfile</string>
+    <string name="galleryImage">galleryImage</string>
+    <string name="cancelImage">cancelImage</string>
+    <string name="visibilityImage">visibilityImage</string>
+    <string name="chatImage">chatImage</string>
+    <string name="addStoryImage">addStoryImage</string>
+    <string-array name="visibility">
+        <item>Everyone</item>
+        <item>Friends</item>
+    </string-array>
 </resources>
