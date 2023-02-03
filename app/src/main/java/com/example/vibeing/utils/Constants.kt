@@ -5,5 +5,7 @@ object Constants {
     const val KEY_USER = "user"
     const val BACK_BTN_TIME_OUT = 3000L
     const val KEY_POST = "post"
+    const val KEY_PROFILE_PIC = "profilePic"
+    const val KEY_COVER_PIC = "coverPic"
     const val TYPE_IMAGE = "image/*"
 }

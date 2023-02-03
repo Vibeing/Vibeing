@@ -47,6 +47,8 @@
     <string name="everyone">Everyone</string>
     <string name="friends">Friends</string>
     <string name="uploading_your_post" tools:ignore="TypographyEllipsis">Uploading your post...</string>
+    <string name="uploading_your_profile_photo" tools:ignore="TypographyEllipsis">Updating your profile photo...</string>
+    <string name="uploading_your_cover_photo" tools:ignore="TypographyEllipsis">Updating your cover photo...</string>
     <string name="post_uploaded_successfully">Post uploaded successfully</string>
     <string name="userprofile">userProfile</string>
     <string name="galleryImage">galleryImage</string>
@@ -54,6 +56,19 @@
     <string name="visibilityImage">visibilityImage</string>
     <string name="chatImage">chatImage</string>
     <string name="addStoryImage">addStoryImage</string>
+    <string name="posts">Posts</string>
+    <string name="settingsImage">settingsImage</string>
+    <string name="changeCoverImage">changeCoverImage</string>
+    <string name="changeProfileImage">changeProfileImage</string>
+    <string name="profileImage">profileImage</string>
+    <string name="coverImage">coverImage</string>
+    <string name="see_all_friends">See all friends</string>
+    <string name="see_all_posts">See all posts</string>
+    <string name="friendImage">friendImage</string>
+    <string name="postImage">postImage</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="block_user">Block User</string>
+    <string name="message">Message</string>
     <string-array name="visibility">
         <item>Everyone</item>
         <item>Friends</item>

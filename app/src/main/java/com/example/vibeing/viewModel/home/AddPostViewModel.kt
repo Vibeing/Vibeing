@@ -1,7 +1,6 @@
 package com.example.vibeing.viewModel.home
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +16,6 @@ class AddPostViewModel @Inject constructor(private val repository: HomeRepositor
     var addPostLiveData = MutableLiveData<Resource<Boolean>>()
     var addPostButtonStateLiveData = MutableLiveData<Boolean>()
     fun addPost(post: Post) {
-        Log.d("aryan", "o/")
         addPostLiveData.value = Resource.loading(null)
         viewModelScope.launch {
             val result = repository.addPost(post)
@@ -31,7 +29,6 @@ class AddPostViewModel @Inject constructor(private val repository: HomeRepositor
         viewModelScope.launch {
             val result = repository.getPostImgUrlFromStorage(uri, uid)
             addPostImageToServerLiveData.value = result
-            Log.e("aryan", result.data.toString())
         }
     }
 }
