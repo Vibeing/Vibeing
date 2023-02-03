@@ -1,8 +1,11 @@
 package com.example.vibeing.repository
 
 import android.net.Uri
+import android.util.Log
 import com.example.vibeing.models.Post
+import com.example.vibeing.models.User
 import com.example.vibeing.utils.Constants.KEY_POST
+import com.example.vibeing.utils.Constants.KEY_USER
 import com.example.vibeing.utils.FunctionUtils.getException
 import com.example.vibeing.utils.Resource
 import com.google.firebase.firestore.ktx.firestore
@@ -30,6 +33,18 @@ class HomeRepository @Inject constructor() {
             Resource.success(downloadImageUrlResult.toString())
         } catch (exception: Exception) {
             getException(exception, "")
+        }
+    }
+
+    suspend fun getCurrentUser(uid: String): Resource<User> {
+        return try {
+            val result = Firebase.firestore.collection(KEY_USER).document(uid).get().await()
+            if (!result.exists()) {
+                return Resource.success(null)
+            } else Resource.success(result.toObject(User::class.java))
+        } catch (exception: Exception) {
+            Log.e("abc",exception.localizedMessage)
+            getException(exception, null)
         }
     }
 }

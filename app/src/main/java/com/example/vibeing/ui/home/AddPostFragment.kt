@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.vibeing.R
@@ -25,8 +26,10 @@ import com.example.vibeing.utils.FunctionUtils.setUpDialog
 import com.example.vibeing.utils.FunctionUtils.snackBar
 import com.example.vibeing.utils.RequestStatus
 import com.example.vibeing.viewModel.home.AddPostViewModel
+import com.example.vibeing.viewModel.home.GetCurrentViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -37,7 +40,7 @@ class AddPostFragment : Fragment() {
     private val viewModel by viewModels<AddPostViewModel>()
     private var postImageUrl: Uri? = null
     private lateinit var dialog: Dialog
-
+    private val userViewModel by activityViewModels<GetCurrentViewModel>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAddPostBinding.inflate(layoutInflater)
         focusScreen(binding.root)
@@ -52,7 +55,23 @@ class AddPostFragment : Fragment() {
         setUpVisibilitySpinner()
         handleAddPostLiveDataStatusChange()
         handleAddPostImageToStorage()
+        handleCurrentUserLiveData()
         handleAddPostBtnStatus()
+    }
+
+    private fun handleCurrentUserLiveData() {
+        userViewModel.currentUserLiveData.observe(viewLifecycleOwner) {
+            if (it.data == null)
+                return@observe
+            val user = it.data
+            with(binding) {
+                userNameTxt.text = user.fullName
+                if (user.profilePic.isNotBlank())
+                    Picasso.get().load(user.profilePic).placeholder(R.drawable.ic_default_user).into(userProfileImg)
+                else
+                    userProfileImg.setImageResource(R.drawable.ic_default_user)
+            }
+        }
     }
 
     private fun setUpClickListener() {
