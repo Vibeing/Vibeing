@@ -54,6 +54,8 @@
     <string name="visibilityImage">visibilityImage</string>
     <string name="chatImage">chatImage</string>
     <string name="addStoryImage">addStoryImage</string>
+    <string name="getting_user_details">Getting User Details...</string>
+    <string name="user_not_found">User Not Found</string>
     <string-array name="visibility">
         <item>Everyone</item>
         <item>Friends</item>

@@ -1,4 +1,4 @@
-package com.example.vibeing
+package com.example.vibeing.ui.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
