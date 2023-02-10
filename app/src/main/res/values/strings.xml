@@ -56,6 +56,7 @@
     <string name="visibilityImage">visibilityImage</string>
     <string name="chatImage">chatImage</string>
     <string name="addStoryImage">addStoryImage</string>
+<<<<<<< HEAD
     <string name="posts">Posts</string>
     <string name="settingsImage">settingsImage</string>
     <string name="changeCoverImage">changeCoverImage</string>
@@ -73,6 +74,10 @@
     <string name="user_not_found">User Not Found</string>
     <string name="commentsImage">commentsImage</string>
     <string name="likesImage">likesImage</string>
+=======
+    <string name="getting_user_details">Getting User Details...</string>
+    <string name="user_not_found">User Not Found</string>
+>>>>>>> origin/development
     <string-array name="visibility">
         <item>Everyone</item>
         <item>Friends</item>
