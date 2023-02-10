@@ -98,7 +98,7 @@ object FunctionUtils {
             this.setCancelable(false)
             val dialogBinding = LayoutProgressDialogBinding.inflate(layoutInflater)
             this.setContentView(dialogBinding.root)
-            val width = (context.resources.displayMetrics.widthPixels * 0.70).toInt()
+            val width = (context.resources.displayMetrics.widthPixels * 0.80).toInt()
             this.window?.setLayout(width, ActionBar.LayoutParams.WRAP_CONTENT)
             dialogBinding.dialogMessageTxt.text = message
         }

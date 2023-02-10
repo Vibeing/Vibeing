@@ -1,14 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:fillViewport="true"
+        android:scrollbars="none"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/seeAllFriends"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_white_12"
+                android:backgroundTint="#1904B5F8"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:padding="6dp"
+                android:text="@string/see_all_friends"
+                android:textColor="@color/blue_white"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/friendsRecyclerView"
+                app:layout_constraintStart_toStartOf="@+id/friendsRecyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/friendsRecyclerView" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/coverImage"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_200sdp"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/coverImage"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="16dp"
+                app:riv_tile_mode="clamp"
+                android:src="@drawable/ic_cover_image" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:background="@drawable/circular_button"
+                android:padding="4dp"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/profileImage"
+                android:src="@drawable/ic_default_user"
+                app:layout_constraintBottom_toBottomOf="@+id/coverImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline2" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/_200sdp" />
+
+            <TextView
+                android:id="@+id/userNameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/profileImage"
+                app:layout_constraintStart_toStartOf="@+id/profileImage"
+                app:layout_constraintTop_toBottomOf="@+id/profileImage"
+                tools:text="Aryan Mishra" />
+
+            <TextView
+                android:id="@+id/userBioTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="4"
+                android:textColor="@color/black_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userNameTxt"
+                tools:text="4 August \n Varanasi, Uttar Pradesh \n Android developer \n Cricket Lover" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/changeCoverImg"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@drawable/circular_button"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/changeCoverImage"
+                android:src="@drawable/ic_camera"
+                app:fabCustomSize="@dimen/_28sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/coverImage"
+                app:layout_constraintEnd_toEndOf="@+id/coverImage" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/settingsImg"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@drawable/circular_button"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/settingsImage"
+                android:src="@drawable/ic_settings"
+                app:fabCustomSize="@dimen/_28sdp"
+                app:layout_constraintEnd_toEndOf="@+id/coverImage"
+                app:layout_constraintTop_toTopOf="@+id/coverImage" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/changeProfileImg"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@drawable/circular_button"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/changeProfileImage"
+                android:src="@drawable/ic_camera"
+                app:fabCustomSize="@dimen/_28sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/profileImage"
+                app:layout_constraintEnd_toEndOf="@+id/profileImage" />
+
+            <TextView
+                android:id="@+id/friends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/friends"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier"
+                tools:text="Friends  (102)" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/friendsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/friends"
+                app:spanCount="4"
+                tools:itemCount="8"
+                tools:listitem="@layout/item_friend_in_profile" />
+
+            <TextView
+                android:id="@+id/posts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/posts"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seeAllFriends"
+                tools:text="Posts  (24)" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/postsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/posts"
+                app:spanCount="4"
+                tools:itemCount="8"
+                tools:listitem="@layout/item_post_in_profile" />
+
+            <TextView
+                android:id="@+id/seeAllPosts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/background_white_12"
+                android:backgroundTint="#1904B5F8"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:padding="6dp"
+                android:text="@string/see_all_posts"
+                android:textColor="@color/blue_white"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/postsRecyclerView"
+                app:layout_constraintStart_toStartOf="@+id/postsRecyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/postsRecyclerView" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="requestStatusTxt,userBioTxt" />
+
+            <TextView
+                android:id="@+id/requestStatusTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black_white"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_goneMarginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/userBioTxt"
+                tools:text="Sent you a friend request" />
+
+            <TextView
+                android:id="@+id/addFriendBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/background_white_10"
+                android:backgroundTint="@color/blue_white"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:minHeight="0dp"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="7dp"
+                android:text="@string/friends"
+                android:textAllCaps="false"
+                android:textColor="@color/white_black"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_check"
+                app:drawableTint="@color/white_black"
+                app:layout_constraintBottom_toTopOf="@id/barrier"
+                app:layout_constraintEnd_toStartOf="@+id/MessageUserBtn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier2"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/MessageUserBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="@drawable/background_white_10"
+                android:backgroundTint="#E5ECF6"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:minHeight="0dp"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="7dp"
+                android:text="@string/message"
+                android:textAllCaps="false"
+                android:textColor="@color/black_white"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_message_user"
+                app:drawableTint="@color/black_white"
+                app:layout_constraintBottom_toBottomOf="@+id/addFriendBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/addFriendBtn"
+                app:layout_constraintTop_toTopOf="@+id/addFriendBtn"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/currentUserGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="settingsImg,changeProfileImg,changeCoverImg" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/otherUserGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="requestStatusTxt,addFriendBtn,MessageUserBtn" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/hideFriendListGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="friends,friendsRecyclerView,seeAllFriends" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="requestStatusTxt,addFriendBtn,MessageUserBtn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

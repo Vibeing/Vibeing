@@ -5,5 +5,10 @@ class User(val fullName: String, val email: String, val gender: String, val dob:
     constructor() : this("", "", "", "")
 
     var profilePic = ""
+<<<<<<< HEAD
+    var coverPic = ""
+    var bio = ""
+=======
+>>>>>>> origin/development
 
 }

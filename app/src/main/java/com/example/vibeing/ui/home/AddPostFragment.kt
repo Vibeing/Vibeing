@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -131,13 +130,11 @@ class AddPostFragment : Fragment() {
                 when (it.status) {
                     RequestStatus.LOADING -> {
                         dialog.show()
-                        Log.e("aryan", "hi")
                         addPostBtn.isClickable = false
                     }
                     RequestStatus.SUCCESS -> {
                         dialog.hide()
                         addPostBtn.isClickable = true
-                        Log.e("aryan", it.data.toString())
                         val post = Post(it.data.toString(), binding.captionEdit.text.toString(), Firebase.auth.uid!!, binding.visibilitySpin.selectedItemPosition, Date().time)
                         viewModel.addPost(post)
                         //Firebase.auth.uid?.let { it1 -> viewModel.checkCurrentUser(it1) }
@@ -174,7 +171,6 @@ class AddPostFragment : Fragment() {
         with(binding) {
             if (postImageUrl != null) {
                 viewModel.addPostImageToStorage(postImageUrl!!, Firebase.auth.uid!!)
-                Log.e("aryan", "yo")
                 return
             }
             //Log.e("aryan", postImageUrl.toString())
