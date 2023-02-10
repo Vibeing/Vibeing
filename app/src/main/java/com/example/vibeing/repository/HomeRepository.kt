@@ -1,7 +1,9 @@
 package com.example.vibeing.repository
 
 import android.net.Uri
+import android.util.Log
 import com.example.vibeing.models.Post
+import com.example.vibeing.models.User
 import com.example.vibeing.utils.Constants.KEY_COVER_PIC
 import com.example.vibeing.utils.Constants.KEY_POST
 import com.example.vibeing.utils.Constants.KEY_PROFILE_PIC
@@ -25,12 +27,12 @@ class HomeRepository @Inject constructor() {
         }
     }
 
-    suspend fun updateProfileOrCoverPhoto(url: Uri, uid: String, key: String): Resource<Boolean> {
+    suspend fun updateUserDetails(user: User, uid: String): Resource<User> {
         return try {
-            Firebase.firestore.collection(KEY_USER).document(uid).update(key, url).await()
-            Resource.success(true)
+            Firebase.firestore.collection(KEY_USER).document(uid).set(user).await()
+            Resource.success(user)
         } catch (exception: Exception) {
-            getException(exception, false)
+            getException(exception, null)
         }
     }
 
@@ -64,6 +66,18 @@ class HomeRepository @Inject constructor() {
             Resource.success(downloadImageUrlResult.toString())
         } catch (exception: Exception) {
             getException(exception, "")
+        }
+    }
+
+    suspend fun getCurrentUser(uid: String): Resource<User> {
+        return try {
+            val result = Firebase.firestore.collection(KEY_USER).document(uid).get().await()
+            if (!result.exists()) {
+                return Resource.success(null)
+            } else Resource.success(result.toObject(User::class.java))
+        } catch (exception: Exception) {
+            exception.localizedMessage?.let { Log.e("abc", it) }
+            getException(exception, null)
         }
     }
 }

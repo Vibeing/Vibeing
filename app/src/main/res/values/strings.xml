@@ -68,7 +68,11 @@
     <string name="postImage">postImage</string>
     <string name="add_friend">Add Friend</string>
     <string name="block_user">Block User</string>
+    <string name="getting_user_details">Getting User Details...</string>
     <string name="message">Message</string>
+    <string name="user_not_found">User Not Found</string>
+    <string name="commentsImage">commentsImage</string>
+    <string name="likesImage">likesImage</string>
     <string-array name="visibility">
         <item>Everyone</item>
         <item>Friends</item>

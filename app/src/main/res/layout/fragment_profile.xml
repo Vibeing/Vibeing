@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/friendsRecyclerView" />
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/coverImg"
+                android:id="@+id/coverImage"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"
                 android:layout_marginHorizontal="12dp"
@@ -49,17 +49,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:riv_corner_radius="16dp"
                 app:riv_tile_mode="clamp"
-                tools:src="@mipmap/ic_launcher" />
+                android:src="@drawable/ic_cover_image" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profileImage"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_120sdp"
                 android:background="@drawable/circular_button"
+                android:padding="4dp"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/profileImage"
                 android:src="@drawable/ic_default_user"
-                app:layout_constraintBottom_toBottomOf="@+id/coverImg"
+                app:layout_constraintBottom_toBottomOf="@+id/coverImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/guideline2" />
@@ -108,8 +109,8 @@
                 android:contentDescription="@string/changeCoverImage"
                 android:src="@drawable/ic_camera"
                 app:fabCustomSize="@dimen/_28sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/coverImg"
-                app:layout_constraintEnd_toEndOf="@+id/coverImg" />
+                app:layout_constraintBottom_toBottomOf="@+id/coverImage"
+                app:layout_constraintEnd_toEndOf="@+id/coverImage" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/settingsImg"
@@ -120,8 +121,8 @@
                 android:contentDescription="@string/settingsImage"
                 android:src="@drawable/ic_settings"
                 app:fabCustomSize="@dimen/_28sdp"
-                app:layout_constraintEnd_toEndOf="@+id/coverImg"
-                app:layout_constraintTop_toTopOf="@+id/coverImg" />
+                app:layout_constraintEnd_toEndOf="@+id/coverImage"
+                app:layout_constraintTop_toTopOf="@+id/coverImage" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/changeProfileImg"
@@ -210,18 +211,26 @@
                 app:layout_constraintStart_toStartOf="@+id/postsRecyclerView"
                 app:layout_constraintTop_toBottomOf="@+id/postsRecyclerView" />
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="requestStatusTxt,userBioTxt" />
+
             <TextView
                 android:id="@+id/requestStatusTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/black_white"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/userBioTxt"
-                app:layout_constraintStart_toStartOf="@+id/userBioTxt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_goneMarginTop="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/userBioTxt"
-                tools:text="Sent you a friend request"
-                tools:visibility="visible" />
+                tools:text="Sent you a friend request" />
 
             <TextView
                 android:id="@+id/addFriendBtn"
@@ -248,7 +257,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/requestStatusTxt"
+                app:layout_constraintTop_toBottomOf="@+id/barrier2"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -292,7 +301,6 @@
                 android:id="@+id/hideFriendListGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 app:constraint_referenced_ids="friends,friendsRecyclerView,seeAllFriends" />
 
             <androidx.constraintlayout.widget.Barrier
@@ -300,9 +308,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="requestStatusTxt,addFriendBtn,MessageUserBtn"
-                tools:layout_editor_absoluteY="1138dp" />
+                app:constraint_referenced_ids="requestStatusTxt,addFriendBtn,MessageUserBtn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

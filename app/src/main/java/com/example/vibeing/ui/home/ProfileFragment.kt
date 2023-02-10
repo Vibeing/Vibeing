@@ -2,25 +2,27 @@ package com.example.vibeing.ui.home
 
 import android.app.Activity
 import android.app.Dialog
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentProfileBinding
-import com.example.vibeing.utils.Constants.KEY_COVER_PIC
-import com.example.vibeing.utils.Constants.KEY_PROFILE_PIC
+import com.example.vibeing.models.User
 import com.example.vibeing.utils.FunctionUtils.openGallery
 import com.example.vibeing.utils.FunctionUtils.setUpDialog
 import com.example.vibeing.utils.FunctionUtils.snackBar
 import com.example.vibeing.utils.RequestStatus
+import com.example.vibeing.utils.Resource
+import com.example.vibeing.viewModel.home.GetCurrentViewModel
 import com.example.vibeing.viewModel.home.ProfileViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,6 +31,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<ProfileViewModel>()
+    private val userViewModel by activityViewModels<GetCurrentViewModel>()
     private lateinit var dialog: Dialog
     private var isProfilePictureClicked = -1
 
@@ -42,8 +45,10 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpClickListener()
+        getCurrentUserDetails()
         handleAddProfileImageToStorage()
         handleAddCoverImageToStorage()
+        handleUpdateUserDetails()
     }
 
     private fun setUpClickListener() {
@@ -52,11 +57,24 @@ class ProfileFragment : Fragment() {
                 isProfilePictureClicked = 1
                 openGallery(resultLauncher)
             }
-
             changeCoverImg.setOnClickListener {
                 isProfilePictureClicked = 0
                 openGallery(resultLauncher)
             }
+        }
+    }
+
+    private fun getCurrentUserDetails() {
+        val user: User? = userViewModel.currentUserLiveData.value?.data
+        with(binding) {
+            if (user?.coverPic?.isNotBlank() == true) {
+                Picasso.get().load(user.coverPic).placeholder(R.drawable.ic_default_user).into(coverImage)
+            }
+            if (user?.profilePic?.isNotBlank() == true) {
+                Picasso.get().load(user.profilePic).placeholder(R.drawable.ic_default_user).into(profileImage)
+            }
+            userNameTxt.text = user?.fullName
+            userBioTxt.text = user?.bio
         }
     }
 
@@ -67,11 +85,17 @@ class ProfileFragment : Fragment() {
                     dialog.show()
                 }
                 RequestStatus.SUCCESS -> {
-                    dialog.hide()
-                    viewModel.updateProfileOrCoverImage(Uri.parse(it.data), Firebase.auth.uid!!, KEY_PROFILE_PIC)
+                    if (this::dialog.isInitialized)
+                        dialog.hide()
+                    userViewModel.currentUserLiveData.value?.data?.let { user ->
+                        val currentUser: User = user
+                        currentUser.profilePic = it.data.toString()
+                        viewModel.updateUserDetails(currentUser, Firebase.auth.uid!!)
+                    }
                 }
                 RequestStatus.EXCEPTION -> {
-                    dialog.hide()
+                    if (this::dialog.isInitialized)
+                        dialog.hide()
                     snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
                 }
             }
@@ -85,11 +109,38 @@ class ProfileFragment : Fragment() {
                     dialog.show()
                 }
                 RequestStatus.SUCCESS -> {
-                    dialog.hide()
-                    viewModel.updateProfileOrCoverImage(Uri.parse(it.data), Firebase.auth.uid!!, KEY_COVER_PIC)
+                    if (this::dialog.isInitialized)
+                        dialog.hide()
+                    userViewModel.currentUserLiveData.value?.data?.let { user ->
+                        val currentUser: User = user
+                        currentUser.coverPic = it.data.toString()
+                        viewModel.updateUserDetails(currentUser, Firebase.auth.uid!!)
+                    }
                 }
                 RequestStatus.EXCEPTION -> {
-                    dialog.hide()
+                    if (this::dialog.isInitialized)
+                        dialog.hide()
+                    snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
+                }
+            }
+        }
+    }
+
+    private fun handleUpdateUserDetails() {
+        viewModel.updateUserDetailsLiveData.observe(viewLifecycleOwner) {
+            when (it.status) {
+                RequestStatus.LOADING -> {
+                }
+                RequestStatus.SUCCESS -> {
+                    userViewModel.currentUserLiveData.value = Resource.success(it.data)
+                    it.data?.coverPic?.let { coverPic ->
+                        Picasso.get().load(coverPic).placeholder(R.drawable.ic_default_user).into(binding.coverImage)
+                    }
+                    it.data?.profilePic?.let { profilePic ->
+                        Picasso.get().load(profilePic).placeholder(R.drawable.ic_default_user).into(binding.profileImage)
+                    }
+                }
+                RequestStatus.EXCEPTION -> {
                     snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
                 }
             }
@@ -100,7 +151,6 @@ class ProfileFragment : Fragment() {
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
             if (data != null && data.data != null) {
-                // Log.e("abc", isProfilePictureClicked.toString() + " " + data.data)
                 if (isProfilePictureClicked == 1) {
                     dialog = setUpDialog(getString(R.string.uploading_your_profile_photo), requireContext())
                     viewModel.addProfileImageToStorage(data.data!!, Firebase.auth.uid!!)
@@ -110,5 +160,10 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

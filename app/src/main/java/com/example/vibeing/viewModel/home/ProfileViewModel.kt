@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.vibeing.models.User
 import com.example.vibeing.repository.HomeRepository
 import com.example.vibeing.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,9 +14,11 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val repository: HomeRepository) : ViewModel() {
 
-    fun updateProfileOrCoverImage(url: Uri, uid: String, key: String) {
+    var updateUserDetailsLiveData = MutableLiveData<Resource<User>>()
+    fun updateUserDetails(user: User, uid: String) {
         viewModelScope.launch {
-            repository.updateProfileOrCoverPhoto(url, uid, key)
+            val result = repository.updateUserDetails(user, uid)
+            updateUserDetailsLiveData.value = result
         }
     }
 

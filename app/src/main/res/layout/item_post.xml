@@ -1,5 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/likeImage"
+        tools:text="100 likes" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black_white"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/likeImage"
+        tools:text="32 comments" />
+
+    <ImageView
+        android:id="@+id/commentImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/commentsImage"
+        app:layout_constraintBottom_toBottomOf="@+id/likeImage"
+        app:layout_constraintStart_toEndOf="@+id/likeImage"
+        app:layout_constraintTop_toTopOf="@+id/likeImage"
+        app:srcCompat="@drawable/ic_comment" />
+
+    <ImageView
+        android:id="@+id/likeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_like_black"
+        android:contentDescription="@string/likesImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+
+    <ImageView
+        android:id="@+id/postImage"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/postImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userLocationTxt"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userProfileImg"
+        android:layout_width="@dimen/_38sdp"
+        android:layout_height="@dimen/_38sdp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/userprofile"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_default_user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userNameTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black_white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/userProfileImg"
+        app:layout_constraintTop_toTopOf="@+id/userProfileImg"
+        tools:text="Aryan Mishra" />
+
+    <TextView
+        android:id="@+id/userLocationTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/black_white"
+        app:layout_constraintBottom_toBottomOf="@+id/userProfileImg"
+        app:layout_constraintStart_toEndOf="@+id/userProfileImg"
+        app:layout_constraintTop_toBottomOf="@+id/userNameTxt"
+        tools:text="Varanasi, Uttar Pradesh" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

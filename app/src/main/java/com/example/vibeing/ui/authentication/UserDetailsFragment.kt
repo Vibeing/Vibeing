@@ -91,7 +91,7 @@ class UserDetailsFragment : Fragment() {
             val dob = dateOfBirthTxt.text.toString()
             val gender = genderTxt.text.toString()
             val email = UserDetailsFragmentArgs.fromBundle(requireArguments()).email
-            val user = User(fullName, email, gender, dob, "", "")
+            val user = User(fullName, email, gender, dob)
             if (!validateForm(user))
                 return
             hideKeyboard(requireContext(), requireView())

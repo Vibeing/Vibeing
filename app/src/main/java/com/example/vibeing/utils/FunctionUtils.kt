@@ -22,7 +22,6 @@ import com.example.vibeing.R
 import com.example.vibeing.databinding.LayoutProgressDialogBinding
 import com.example.vibeing.utils.Constants.TYPE_IMAGE
 import com.google.android.material.snackbar.Snackbar
-import java.util.*
 
 
 object FunctionUtils {
@@ -99,7 +98,7 @@ object FunctionUtils {
             this.setCancelable(false)
             val dialogBinding = LayoutProgressDialogBinding.inflate(layoutInflater)
             this.setContentView(dialogBinding.root)
-            val width = (context.resources.displayMetrics.widthPixels * 0.70).toInt()
+            val width = (context.resources.displayMetrics.widthPixels * 0.80).toInt()
             this.window?.setLayout(width, ActionBar.LayoutParams.WRAP_CONTENT)
             dialogBinding.dialogMessageTxt.text = message
         }

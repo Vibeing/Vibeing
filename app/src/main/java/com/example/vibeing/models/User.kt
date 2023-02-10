@@ -1,4 +1,11 @@
 package com.example.vibeing.models
 
-class User(val fullName: String, val email: String, val gender: String, val dob: String, val profilePic: String, val coverPic: String) {
+@Suppress("unused")
+class User(val fullName: String, val email: String, val gender: String, val dob: String) {
+    constructor() : this("", "", "", "")
+
+    var profilePic = ""
+    var coverPic = ""
+    var bio = ""
+
 }

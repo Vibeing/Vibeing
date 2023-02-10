@@ -47,7 +47,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -72,12 +72,12 @@ dependencies {
     //Sdp
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
-
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
     // test dependency
     testImplementation 'junit:junit:4.13.2'
     testImplementation "com.google.truth:truth:1.1.3"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-
     //android test dependency
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
