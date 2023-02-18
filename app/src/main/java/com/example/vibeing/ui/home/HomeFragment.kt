@@ -7,12 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+<<<<<<< HEAD
 import com.example.vibeing.R
 import com.example.vibeing.databinding.FragmentHomeBinding
 import com.example.vibeing.utils.FunctionUtils.setUpDialog
 import com.example.vibeing.utils.FunctionUtils.toast
 import com.example.vibeing.utils.RequestStatus
 import com.example.vibeing.viewModel.home.GetCurrentViewModel
+=======
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.vibeing.R
+import com.example.vibeing.databinding.FragmentHomeBinding
+import com.example.vibeing.databinding.FragmentSigninBinding
+import com.example.vibeing.utils.FunctionUtils.setUpDialog
+import com.example.vibeing.utils.FunctionUtils.snackBar
+import com.example.vibeing.utils.FunctionUtils.toast
+import com.example.vibeing.utils.RequestStatus
+import com.example.vibeing.viewModel.authentication.SigninViewModel
+import com.example.vibeing.viewModel.home.GetCurrentViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
+>>>>>>> origin/development
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -62,6 +77,10 @@ class HomeFragment : Fragment() {
         Firebase.auth.uid?.let { uid ->
             if (userViewModel.currentUserLiveData.value == null)
                 userViewModel.getCurrentUser(uid)
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/development
         }
     }
 
