@@ -4,15 +4,11 @@ import android.net.Uri
 import android.util.Log
 import com.example.vibeing.models.Post
 import com.example.vibeing.models.User
-<<<<<<< HEAD
 import com.example.vibeing.utils.Constants.KEY_COVER_PIC
 import com.example.vibeing.utils.Constants.KEY_POST
 import com.example.vibeing.utils.Constants.KEY_POSTED_BY
 import com.example.vibeing.utils.Constants.KEY_POST_TIME
 import com.example.vibeing.utils.Constants.KEY_PROFILE_PIC
-=======
-import com.example.vibeing.utils.Constants.KEY_POST
->>>>>>> origin/development
 import com.example.vibeing.utils.Constants.KEY_USER
 import com.example.vibeing.utils.FunctionUtils.getException
 import com.example.vibeing.utils.Resource
@@ -73,7 +69,6 @@ class HomeRepository @Inject constructor() {
         }
     }
 
-<<<<<<< HEAD
     suspend fun getProfileImgUrlFromStorage(url: Uri, uid: String): Resource<String> {
         return try {
             val reference = FirebaseStorage.getInstance().reference.child(KEY_PROFILE_PIC).child(uid)
@@ -96,8 +91,6 @@ class HomeRepository @Inject constructor() {
         }
     }
 
-=======
->>>>>>> origin/development
     suspend fun getCurrentUser(uid: String): Resource<User> {
         return try {
             val result = Firebase.firestore.collection(KEY_USER).document(uid).get().await()
@@ -105,11 +98,7 @@ class HomeRepository @Inject constructor() {
                 return Resource.success(null)
             } else Resource.success(result.toObject(User::class.java))
         } catch (exception: Exception) {
-<<<<<<< HEAD
             exception.localizedMessage?.let { Log.e("abc", it) }
-=======
-            Log.e("abc",exception.localizedMessage)
->>>>>>> origin/development
             getException(exception, null)
         }
     }
