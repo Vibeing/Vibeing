@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
     private val userViewModel by activityViewModels<GetCurrentViewModel>()
     private lateinit var userDialog: Dialog
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater)
         handleCurrentUserData()
         initAll()
@@ -42,8 +42,7 @@ class HomeFragment : Fragment() {
                     userDialog.show()
                 }
                 RequestStatus.SUCCESS -> {
-                    if (it.data != null)
-                    else {
+                    if (it.data == null) {
                         toast(requireContext(), getString(R.string.user_not_found))
                         Firebase.auth.signOut()
                         requireActivity().finish()

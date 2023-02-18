@@ -18,8 +18,7 @@ class AddPostViewModel @Inject constructor(private val repository: HomeRepositor
     fun addPost(post: Post) {
         addPostLiveData.value = Resource.loading(null)
         viewModelScope.launch {
-            val result = repository.addPost(post)
-            addPostLiveData.value = result
+            addPostLiveData.value = repository.addPost(post)
         }
     }
 
@@ -27,8 +26,7 @@ class AddPostViewModel @Inject constructor(private val repository: HomeRepositor
     fun addPostImageToStorage(uri: Uri, uid: String) {
         addPostImageToServerLiveData.value = Resource.loading(null)
         viewModelScope.launch {
-            val result = repository.getPostImgUrlFromStorage(uri, uid)
-            addPostImageToServerLiveData.value = result
+            addPostImageToServerLiveData.value = repository.getPostImgUrlFromStorage(uri, uid)
         }
     }
 }

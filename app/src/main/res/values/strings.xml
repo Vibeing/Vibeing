@@ -45,6 +45,8 @@
     <string name="create_post">Create Post</string>
     <string name="what_s_on_your_mind">What\'s on your mind ?</string>
     <string name="everyone">Everyone</string>
+    <string name="everyone_bottom_sheet">Everyone \n <font size="11">This post will be visible to everyone</font></string>
+    <string name="friends_bottom_sheet">Friends \n <font size="11">This post will only be visible to your friends</font></string>
     <string name="friends">Friends</string>
     <string name="uploading_your_post" tools:ignore="TypographyEllipsis">Uploading your post...</string>
     <string name="uploading_your_profile_photo" tools:ignore="TypographyEllipsis">Updating your profile photo...</string>
@@ -73,6 +75,8 @@
     <string name="user_not_found">User Not Found</string>
     <string name="commentsImage">commentsImage</string>
     <string name="likesImage">likesImage</string>
+    <string name="no_posts_to_show">No posts to show</string>
+    <string name="post_count">Posts (%1$s)</string>
     <string-array name="visibility">
         <item>Everyone</item>
         <item>Friends</item>

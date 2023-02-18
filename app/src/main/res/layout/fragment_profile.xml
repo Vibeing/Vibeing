@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/seeAllFriends"
+                android:id="@+id/seeAllFriendsBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -137,7 +137,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/profileImage" />
 
             <TextView
-                android:id="@+id/friends"
+                android:id="@+id/friendsTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -158,13 +158,13 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/friends"
+                app:layout_constraintTop_toBottomOf="@+id/friendsTxt"
                 app:spanCount="4"
                 tools:itemCount="8"
                 tools:listitem="@layout/item_friend_in_profile" />
 
             <TextView
-                android:id="@+id/posts"
+                android:id="@+id/postsTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -174,7 +174,7 @@
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/seeAllFriends"
+                app:layout_constraintTop_toBottomOf="@+id/seeAllFriendsBtn"
                 tools:text="Posts  (24)" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -186,13 +186,14 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/posts"
+                app:layout_constraintTop_toBottomOf="@+id/postsTxt"
                 app:spanCount="4"
+
                 tools:itemCount="8"
                 tools:listitem="@layout/item_post_in_profile" />
 
             <TextView
-                android:id="@+id/seeAllPosts"
+                android:id="@+id/seeAllPostsBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -301,7 +302,7 @@
                 android:id="@+id/hideFriendListGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="friends,friendsRecyclerView,seeAllFriends" />
+                app:constraint_referenced_ids="friendsTxt,friendsRecyclerView,seeAllFriendsBtn" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
@@ -309,6 +310,17 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="requestStatusTxt,addFriendBtn,MessageUserBtn" />
+
+            <TextView
+                android:id="@+id/noPostTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_posts_to_show"
+                android:textColor="@color/black_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postsTxt" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

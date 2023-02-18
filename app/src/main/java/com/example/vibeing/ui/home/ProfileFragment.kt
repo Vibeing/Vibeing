@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.vibeing.R
+import com.example.vibeing.adapters.home.ProfilePostsAdapter
 import com.example.vibeing.databinding.FragmentProfileBinding
 import com.example.vibeing.models.User
 import com.example.vibeing.utils.FunctionUtils.openGallery
@@ -44,8 +45,11 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setUpClickListener()
-        getCurrentUserDetails()
+        loadCurrentUserDetails()
+        loadCurrentUserPosts()
+        handleCurrentUserPosts()
         handleAddProfileImageToStorage()
         handleAddCoverImageToStorage()
         handleUpdateUserDetails()
@@ -64,17 +68,53 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun getCurrentUserDetails() {
-        val user: User? = userViewModel.currentUserLiveData.value?.data
+    private fun loadCurrentUserDetails() {
         with(binding) {
-            if (user?.coverPic?.isNotBlank() == true) {
-                Picasso.get().load(user.coverPic).placeholder(R.drawable.ic_default_user).into(coverImage)
+            userViewModel.currentUserLiveData.value?.data?.let { user ->
+                if (user.coverPic.isNotBlank())
+                    Picasso.get().load(user.coverPic).placeholder(R.drawable.ic_default_user).into(coverImage)
+                if (user.profilePic.isNotBlank())
+                    Picasso.get().load(user.profilePic).placeholder(R.drawable.ic_default_user).into(profileImage)
+                userNameTxt.text = user.fullName
+                userBioTxt.text = user.bio
             }
-            if (user?.profilePic?.isNotBlank() == true) {
-                Picasso.get().load(user.profilePic).placeholder(R.drawable.ic_default_user).into(profileImage)
+        }
+    }
+
+    private fun loadCurrentUserPosts() {
+        viewModel.getUserPosts(Firebase.auth.uid!!)
+    }
+
+    private fun handleCurrentUserPosts() {
+        viewModel.getUserPostsLiveData.observe(viewLifecycleOwner) {
+            when (it.status) {
+                RequestStatus.LOADING -> {
+                }
+                RequestStatus.SUCCESS -> {
+                    with(binding) {
+                        val postsList = it.data
+                        if (postsList?.isEmpty() == true) {
+                            noPostTxt.visibility = View.VISIBLE
+                            seeAllPostsBtn.visibility = View.GONE
+                            postsRecyclerView.visibility = View.GONE
+                            postsTxt.text = getText(R.string.posts)
+                        } else {
+                            postsRecyclerView.visibility = View.VISIBLE
+                            noPostTxt.visibility = View.GONE
+                            postsTxt.text = String.format(getString(R.string.post_count, postsList?.size.toString()))
+                            if (postsList?.size?.let { size -> size > 8 } == true)
+                                seeAllPostsBtn.visibility = View.VISIBLE
+                            else
+                                seeAllPostsBtn.visibility = View.GONE
+                            val postsAdapter = postsList?.let { list -> ProfilePostsAdapter(requireContext(), list) }
+                            postsRecyclerView.adapter = postsAdapter
+                        }
+                    }
+                }
+                RequestStatus.EXCEPTION -> {
+                    snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
+                }
             }
-            userNameTxt.text = user?.fullName
-            userBioTxt.text = user?.bio
         }
     }
 
@@ -85,8 +125,7 @@ class ProfileFragment : Fragment() {
                     dialog.show()
                 }
                 RequestStatus.SUCCESS -> {
-                    if (this::dialog.isInitialized)
-                        dialog.hide()
+                    if (this::dialog.isInitialized) dialog.hide()
                     userViewModel.currentUserLiveData.value?.data?.let { user ->
                         val currentUser: User = user
                         currentUser.profilePic = it.data.toString()
@@ -94,8 +133,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 RequestStatus.EXCEPTION -> {
-                    if (this::dialog.isInitialized)
-                        dialog.hide()
+                    if (this::dialog.isInitialized) dialog.hide()
                     snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
                 }
             }
@@ -109,8 +147,7 @@ class ProfileFragment : Fragment() {
                     dialog.show()
                 }
                 RequestStatus.SUCCESS -> {
-                    if (this::dialog.isInitialized)
-                        dialog.hide()
+                    if (this::dialog.isInitialized) dialog.hide()
                     userViewModel.currentUserLiveData.value?.data?.let { user ->
                         val currentUser: User = user
                         currentUser.coverPic = it.data.toString()
@@ -118,8 +155,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 RequestStatus.EXCEPTION -> {
-                    if (this::dialog.isInitialized)
-                        dialog.hide()
+                    if (this::dialog.isInitialized) dialog.hide()
                     snackBar(requireView(), it.message ?: getString(R.string.some_error_occurred)).show()
                 }
             }
