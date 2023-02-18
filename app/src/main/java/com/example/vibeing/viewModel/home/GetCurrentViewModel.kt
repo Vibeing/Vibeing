@@ -16,8 +16,7 @@ class GetCurrentViewModel @Inject constructor(private val repository: HomeReposi
     fun getCurrentUser(uid: String) {
         currentUserLiveData.value = Resource.loading(null)
         viewModelScope.launch {
-            val result = repository.getCurrentUser(uid)
-            currentUserLiveData.value = result
+            currentUserLiveData.value = repository.getCurrentUser(uid)
         }
     }
 }

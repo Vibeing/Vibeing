@@ -8,4 +8,6 @@ object Constants {
     const val KEY_PROFILE_PIC = "profilePic"
     const val KEY_COVER_PIC = "coverPic"
     const val TYPE_IMAGE = "image/*"
+    const val KEY_POSTED_BY = "postedBy"
+    const val KEY_POST_TIME = "postTime"
 }

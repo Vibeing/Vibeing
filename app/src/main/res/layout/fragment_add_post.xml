@@ -78,7 +78,7 @@
                 android:contentDescription="@string/userprofile"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_default_user"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+                app:layout_constraintBottom_toBottomOf="@id/visibilityTxt"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/userNameTxt" />
 
@@ -96,32 +96,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Aryan Kumar Mishra" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/background_border_white_12"
-                app:layout_constraintEnd_toStartOf="@+id/galleryImg"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/userProfileImg"
-                app:layout_constraintTop_toBottomOf="@+id/userNameTxt">
-
-                <Spinner
-                    android:id="@+id/visibilitySpin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingTop="@dimen/_1sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView4"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/imageView3"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3"
-                    tools:ignore="RtlSymmetry" />
-            </LinearLayout>
 
             <ImageView
                 android:id="@+id/galleryImg"
@@ -149,7 +123,7 @@
                 android:textSize="@dimen/_16ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/visibilityTxt" />
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/postImg"
@@ -183,6 +157,24 @@
                 app:layout_constraintEnd_toEndOf="@+id/postImg"
                 app:layout_constraintTop_toTopOf="@+id/postImg"
                 tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/visibilityTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/background_border_white_12"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="8dp"
+                android:text="@string/everyone"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/_10ssp"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
+                app:drawableStartCompat="@drawable/ic_everyone_mini"
+                app:layout_constraintStart_toEndOf="@+id/userProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/userNameTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

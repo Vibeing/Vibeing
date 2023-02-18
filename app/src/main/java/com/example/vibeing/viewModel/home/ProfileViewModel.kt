@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.vibeing.models.Post
 import com.example.vibeing.models.User
 import com.example.vibeing.repository.HomeRepository
 import com.example.vibeing.utils.Resource
@@ -17,8 +18,14 @@ class ProfileViewModel @Inject constructor(private val repository: HomeRepositor
     var updateUserDetailsLiveData = MutableLiveData<Resource<User>>()
     fun updateUserDetails(user: User, uid: String) {
         viewModelScope.launch {
-            val result = repository.updateUserDetails(user, uid)
-            updateUserDetailsLiveData.value = result
+            updateUserDetailsLiveData.value = repository.updateUserDetails(user, uid)
+        }
+    }
+
+    var getUserPostsLiveData = MutableLiveData<Resource<ArrayList<Post>>>()
+    fun getUserPosts(uid: String) {
+        viewModelScope.launch {
+            getUserPostsLiveData.value = repository.getUserPosts(uid)
         }
     }
 
@@ -26,8 +33,7 @@ class ProfileViewModel @Inject constructor(private val repository: HomeRepositor
     fun addProfileImageToStorage(uri: Uri, uid: String) {
         addProfileImageToServerLiveData.value = Resource.loading(null)
         viewModelScope.launch {
-            val result = repository.getProfileImgUrlFromStorage(uri, uid)
-            addProfileImageToServerLiveData.value = result
+            addProfileImageToServerLiveData.value = repository.getProfileImgUrlFromStorage(uri, uid)
         }
     }
 
@@ -35,8 +41,7 @@ class ProfileViewModel @Inject constructor(private val repository: HomeRepositor
     fun addCoverImageToStorage(uri: Uri, uid: String) {
         addCoverImageToServerLiveData.value = Resource.loading(null)
         viewModelScope.launch {
-            val result = repository.getCoverImgUrlFromStorage(uri, uid)
-            addCoverImageToServerLiveData.value = result
+            addCoverImageToServerLiveData.value = repository.getCoverImgUrlFromStorage(uri, uid)
         }
     }
 }

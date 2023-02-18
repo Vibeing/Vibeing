@@ -9,13 +9,14 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.vibeing.R
-import com.example.vibeing.adapters.home.DropdownAdapter
 import com.example.vibeing.databinding.FragmentAddPostBinding
 import com.example.vibeing.models.Post
 import com.example.vibeing.utils.FunctionUtils.focusScreen
@@ -26,6 +27,7 @@ import com.example.vibeing.utils.FunctionUtils.snackBar
 import com.example.vibeing.utils.RequestStatus
 import com.example.vibeing.viewModel.home.AddPostViewModel
 import com.example.vibeing.viewModel.home.GetCurrentViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
@@ -51,7 +53,6 @@ class AddPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpClickListener()
-        setUpVisibilitySpinner()
         handleAddPostLiveDataStatusChange()
         handleAddPostImageToStorage()
         handleCurrentUserLiveData()
@@ -75,24 +76,52 @@ class AddPostFragment : Fragment() {
 
     private fun setUpClickListener() {
         with(binding) {
-            addPostBtn.setOnClickListener {
-                addPost()
-            }
+            addPostBtn.setOnClickListener { addPost() }
             captionEdit.addTextChangedListener(textWatcher)
-            galleryImg.setOnClickListener {
-                openGallery(resultLauncher)
-            }
+            galleryImg.setOnClickListener { openGallery(resultLauncher) }
             clearPostImg.setOnClickListener { clearPostImage() }
+            visibilityTxt.setOnClickListener { loadBottomSheet() }
         }
     }
 
-    private fun setUpVisibilitySpinner() {
-        val spinnerList = ArrayList<Pair<Int, String>>()
-        spinnerList.add(Pair(R.drawable.ic_everyone, getString(R.string.everyone)))
-        spinnerList.add(Pair(R.drawable.ic_friends, getString(R.string.friends)))
-        val dropdownAdapter = DropdownAdapter(requireContext(), spinnerList)
+    private fun loadBottomSheet() {
         with(binding) {
-            visibilitySpin.adapter = dropdownAdapter
+            val dialog = BottomSheetDialog(requireContext())
+            dialog.setContentView(R.layout.post_visibility_bottom_sheet)
+
+            val everyoneTxt = dialog.findViewById<TextView>(R.id.everyone)
+            val friendsTxt = dialog.findViewById<TextView>(R.id.friends)
+
+            if (visibilityTxt.text == getString(R.string.everyone)) {
+                everyoneTxt?.setCompoundDrawablesWithIntrinsicBounds(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_everyone), null,
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_green_tick), null
+                )
+            } else {
+                friendsTxt?.setCompoundDrawablesWithIntrinsicBounds(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_friends), null,
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_green_tick), null
+                )
+            }
+
+            everyoneTxt?.setOnClickListener {
+                visibilityTxt.text = getString(R.string.everyone)
+                visibilityTxt.setCompoundDrawablesWithIntrinsicBounds(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_everyone_mini), null,
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_arrow_drop_down_24), null
+                )
+                dialog.dismiss()
+            }
+
+            friendsTxt?.setOnClickListener {
+                binding.visibilityTxt.text = getString(R.string.friends)
+                visibilityTxt.setCompoundDrawablesWithIntrinsicBounds(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_friends_mini), null,
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_arrow_drop_down_24), null
+                )
+                dialog.dismiss()
+            }
+            dialog.show()
         }
     }
 
@@ -135,9 +164,9 @@ class AddPostFragment : Fragment() {
                     RequestStatus.SUCCESS -> {
                         dialog.hide()
                         addPostBtn.isClickable = true
-                        val post = Post(it.data.toString(), binding.captionEdit.text.toString(), Firebase.auth.uid!!, binding.visibilitySpin.selectedItemPosition, Date().time)
+                        val visibility = if (visibilityTxt.text == (getString(R.string.everyone))) 0 else 1
+                        val post = Post(it.data.toString(), binding.captionEdit.text.toString(), Firebase.auth.uid!!, visibility, Date().time)
                         viewModel.addPost(post)
-                        //Firebase.auth.uid?.let { it1 -> viewModel.checkCurrentUser(it1) }
                     }
                     RequestStatus.EXCEPTION -> {
                         dialog.hide()
@@ -173,9 +202,9 @@ class AddPostFragment : Fragment() {
                 viewModel.addPostImageToStorage(postImageUrl!!, Firebase.auth.uid!!)
                 return
             }
-            //Log.e("aryan", postImageUrl.toString())
             val caption = captionEdit.text.toString()
-            val post = Post("", caption, Firebase.auth.uid!!, visibilitySpin.selectedItemPosition, Date().time)
+            val visibility = if (visibilityTxt.equals(getString(R.string.everyone))) 0 else 1
+            val post = Post("", caption, Firebase.auth.uid!!, visibility, Date().time)
             viewModel.addPost(post)
         }
     }
